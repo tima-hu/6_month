@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from app.users.models import User
+from django.core.mail import send_mail
+from django.conf import settings
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,4 +23,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data["password"])
         user.save()
+
+        subject = "Добро подаловать!"
+        message = (
+            f"Здравствуйте {user.first_name}\n\n"
+            f"Ваш аккаунт успешно зарегистрирован\n\n"
+            f"Login : {user.email}"
+            f"Password : {validated_data['password']}"
+            f"Спасибо что зарегистрировались!"
+        )
+
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False
+        )
+        
         return user
