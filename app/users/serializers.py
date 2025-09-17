@@ -3,6 +3,8 @@ from app.users.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -42,3 +44,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         
         return user
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token((user))
+        token['email'] = user.email
+        return token
