@@ -12,7 +12,6 @@ router.register("register-user", UserRegisterAPI, basename='register')
 urlpatterns = [
     path("login/", MyTokenObtainPairView.as_view(), name='token'),
     path("refresh/", TokenRefreshView.as_view(), name='refresh'),
-    path('auth/facebook/', FacebookLoginAPIView.as_view(), name='facebook-login'),
 ]
 
 urlpatterns += router.urls
