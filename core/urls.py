@@ -11,6 +11,7 @@ urlpatterns = [
     path("auth/registration/", include("dj_rest_auth.registration.urls")),
     path("auth/github/", include("allauth.socialaccount.urls")),
     path("accounts/", include("allauth.urls")), 
+    path("auth/social/", include("allauth.socialaccount.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
