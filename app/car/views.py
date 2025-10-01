@@ -3,10 +3,10 @@ from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from django.core.cache import cache
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
 from app.car.models import Car
 from app.car.serializers import CarSerializer
-
+from app.tasks import create_car_advertisement
 
 class CArViewsetsAPI(ModelViewSet):
     queryset = Car.objects.all()
@@ -44,3 +44,11 @@ class CArViewsetsAPI(ModelViewSet):
 
         return Response(car)
     
+class CarCreateView(APIView):
+    def post(self, request):
+        data = request.data.dict()  # данные от пользователя
+        
+        # Запускаем в фоне
+        task = create_car_advertisement.delay(data)
+        
+        return Response({"status": "processing", "task_id": task.id})

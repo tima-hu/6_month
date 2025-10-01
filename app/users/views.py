@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from celery.result import AsyncResult
 
-from app.tasks import send_email_task
+from app.tasks import send_email_task, create_car_advertisement
 from app.users.models import User
 from app.users.serializers import (
     UserSerializer,
