@@ -54,8 +54,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
 
 class SendEmailSerializers(serializers.Serializer):
-    email = serializers.EmailField()
+    to_email = serializers.EmailField()
     subject = serializers.CharField(max_length=255)
     body = serializers.CharField()
-    delay = serializers.ImageField(required=False, default=0, min_value=0,
-    help_text="Отложить выполнение в секундах")
+    delay = serializers.IntegerField(
+        required=False,
+        default=0,
+        min_value=0,
+        help_text="Отложить выполнение в секундах"
+    )

@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    'django_filters',
 
     # App
     "app.users",
     "app.car",
+    
 ]
 
 SITE_ID = 1
@@ -184,3 +186,8 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 # redis
 REDIS_PORT = 6379
 REDIS_HOST = 'localhost'
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10
+}

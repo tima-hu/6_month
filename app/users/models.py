@@ -1,7 +1,9 @@
+# app/users/models.py
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-# Create your models here.
 
+# Пользовательский менеджер
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -23,18 +25,24 @@ class UserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+# Кастомная модель пользователя
 class User(AbstractUser):
-    username = None
+    username = models.CharField(
+        max_length=150,  # стандартное значение
+        blank=True,
+        null=True,
+        help_text="Необязательное поле"
+    )
     email = models.EmailField(unique=True, verbose_name='Почта')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
     def __str__(self):
         return self.email
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-        
