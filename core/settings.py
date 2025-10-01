@@ -1,10 +1,11 @@
-import os
 from pathlib import Path
 from dotenv import load_dotenv
-
-load_dotenv()
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(dotenv_path=BASE_DIR / ".env")
+
 
 # Django secret key
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -146,7 +147,9 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": os.environ.get("GOOGLE_CLIENT_ID"),
             "secret": os.environ.get("GOOGLE_CLIENT_SECRET"),
             "key": ""
-        }
+        },
+        "AUTH_PARAMS": {"access_type": "online"},    
+
     },
     "facebook": {
         "METHOD": "oauth2",
@@ -164,3 +167,20 @@ SOCIALACCOUNT_PROVIDERS = {
 
 LOGIN_REDIRECT_URL = '/'  
 LOGOUT_REDIRECT_URL = '/'  
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",  
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+# redis
+REDIS_PORT = 6379
+REDIS_HOST = 'localhost'
