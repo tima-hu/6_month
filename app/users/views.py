@@ -5,6 +5,22 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from celery.result import AsyncResult
+from app.tasks import send_car_notification_task
+
+
+car_data = {
+    "user": request.user.username,
+    "brand": "Toyota",
+    "model": "Camry",
+    "number": "A123BC",
+    "date": "2025-10-08",
+    "carabka_transfer": "Automatic",
+    "type_car": "Sedan",
+    "probeg": "120000 km",
+}
+
+
+send_car_notification_task.delay(car_data)
 
 from app.tasks import send_email_task, create_car_advertisement
 from app.users.models import User
