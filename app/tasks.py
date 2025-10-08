@@ -4,7 +4,7 @@ from celery.utils.log import get_task_logger
 from django.core.mail import send_mail
 from app.car.models import Car
 import asyncio
-from bot import send_car_notification
+from bot.bot import send_car_notification
 
 logger = get_task_logger(__name__)
 
